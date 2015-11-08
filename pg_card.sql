@@ -311,4 +311,29 @@ INSERT INTO playcards (card_id, unicode_char) VALUES
 ('JS', '🂫'), ('QS', '🂭'), ('KS', '🂮'),
 
 ('SH', '🃟'), ('SS', '🃏'), ('BC', '🂠');
+
+CREATE OR REPLACE VIEW playcards_vw_full AS
+    SELECT
+        p.card_id
+        , p.unicode_char
+        , playcard_value_as_int(p.card_id) :: smallint
+            AS value_smallint
+        , playcard_value_as_string(p.card_id)
+            AS value_string
+        , playcard_suit_as_symbol(p.card_id)
+            AS suit_symbol
+        , playcard_suit_as_string(p.card_id)
+            AS suit_string
+        , playcard_suit_color(p.card_id)
+            AS suit_color
+        , playcard_full_name(p.card_id)
+            AS full_name
+        , playcard_full_name_with_int(p.card_id)
+            AS full_name_int
+        , playcard_value_suit_pair_string(p.card_id)
+            AS value_suit_pair
+        , playcard_draw_card(p.card_id)
+            AS drawn_card
+        FROM playcards AS p;
+
 COMMIT;
