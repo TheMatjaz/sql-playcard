@@ -171,4 +171,19 @@ CREATE OR REPLACE FUNCTION playcard_value_and_suit_string(
                 );
     $body$;
 
+CREATE OR REPLACE FUNCTION playcard_full_name(card_id playcard)
+    RETURNS varchar(17)
+    LANGUAGE sql
+    AS $body$
+        SELECT
+            CASE substring(card_id for 1)
+                WHEN 'S' THEN playcard_suit_color(card_id) || ' joker'
+                WHEN 'B' THEN 'card back'
+                ELSE playcard_value_as_string(card_id)
+                     || ' of '
+                     || playcard_suit_as_string(card_id)
+            END;
+    $body$;
+
+
 COMMIT;
