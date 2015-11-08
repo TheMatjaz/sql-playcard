@@ -32,7 +32,7 @@ Installation
 For now, _pg\_playcard_ comes in a SQL-script-only version. This means that 
 you simply need to run the SQL installer script and that's it.
 ```bash
-psql [other parameters] -f pg_card.sql
+psql [other parameters] -f pg_playcard.sql
 ```
 
 License
