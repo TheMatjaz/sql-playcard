@@ -266,4 +266,25 @@ CREATE OR REPLACE FUNCTION playcard_from_full_name(name varchar(17))
     END;
     $body$;
 
+CREATE OR REPLACE FUNCTION playcard_draw_card(card_id playcard)
+    RETURNS text
+    LANGUAGE sql
+    AS $body$
+        SELECT 
+            concat(
+                E'┌──────┐\n'
+                , '│ '
+                , format('%-2s', playcard_value_as_symbol(card_id))
+                , format('%2s', playcard_suit_as_symbol(card_id))
+                , E' │\n'
+                , E'│      │\n'
+                , E'│      │\n'
+                , '│ '
+                , format('%-2s', playcard_suit_as_symbol(card_id))
+                , format('%2s', playcard_value_as_symbol(card_id))
+                , E' │\n'    
+                , '└──────┘'
+                );
+    $body$;
+
 COMMIT;
