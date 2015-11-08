@@ -199,4 +199,71 @@ CREATE OR REPLACE FUNCTION playcard_full_name_with_int(card_id playcard)
             END;
     $body$;
 
+CREATE OR REPLACE FUNCTION playcard_from_full_name(name varchar(17))
+    RETURNS playcard
+    LANGUAGE plpgsql
+    AS $body$
+    DECLARE
+        value char(1);
+        suit char(1);
+        name_array varchar(10)[];
+        returnable playcard;
+    BEGIN
+        name = trim(both from lower(name));
+        name = regexp_replace(name, '[[:punct:]]|of', '', 'g');
+        IF (position('back' in name) > 0) THEN
+            RETURN 'BH' :: playcard;
+        ELSIF (position('joker' in name) > 0) THEN
+            IF (position('red' in name) > 0) THEN
+                RETURN 'SH' :: playcard;
+            ELSIF (position('black' in name) > 0) THEN
+                RETURN 'SS' :: playcard;
+            ELSE
+                RAISE EXCEPTION 'Illegal playcard full name: % (joker is not red nor black)', name
+                    USING HINT = 'Try with "red joker" or "joker black".';
+            END IF;
+        ELSE
+            name_array = regexp_split_to_array(name, E'\\s+');
+            value = 
+                CASE name_array[1]
+                    WHEN 'ace'   THEN 'A'
+                    WHEN 'two'   THEN '2'
+                    WHEN 'three' THEN '3'
+                    WHEN 'four'  THEN '4'
+                    WHEN 'five'  THEN '5'
+                    WHEN 'six'   THEN '6'
+                    WHEN 'seven' THEN '7'
+                    WHEN 'eight' THEN '8'
+                    WHEN 'nine'  THEN '9'
+                    WHEN 'ten'   THEN '0'
+                    WHEN '10'    THEN '0'
+                    WHEN 'ace'   THEN 'A'
+                    WHEN 'jack'  THEN 'J'
+                    WHEN 'queen' THEN 'Q'
+                    WHEN 'king'  THEN 'K'
+                    WHEN 'joker' THEN 'S'
+                    ELSE upper(substring(name_array[1] for 1))
+                END;
+            suit =
+                CASE name_array[2]
+                    WHEN 'hearts'   THEN 'H'
+                    WHEN 'diamonds' THEN 'D'
+                    WHEN 'clubs'    THEN 'C'
+                    WHEN 'spades'   THEN 'S'
+                    ELSE NULL
+                END;
+        END IF;
+        returnable = (value || suit) :: playcard;
+        IF (returnable IS NOT NULL) THEN
+            RETURN returnable;
+        ELSE
+            RAISE EXCEPTION 'Illegal playcard full name: % (wrong syntax)', name
+                USING HINT = 
+                'The input should be similar to the output of  `playcard_full'
+                || '_name(playcard)`, something like "ace of spades", "five '
+                || 'diamonds", "3 clubs", "card back" or "red joker".';
+        END IF;
+    END;
+    $body$;
+
 COMMIT;
