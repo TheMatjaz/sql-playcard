@@ -154,4 +154,21 @@ CREATE OR REPLACE FUNCTION playcard_suit_color(card_id playcard)
             END;
     $body$;
 
+CREATE OR REPLACE FUNCTION playcard_value_and_suit_string(
+    card_id playcard 
+    , delimiter text DEFAULT NULL
+    , brackets char(2) DEFAULT NULL)
+    RETURNS text
+    LANGUAGE sql
+    AS $body$
+        SELECT
+            concat(
+                substring(brackets for 1)
+                , format('%s', playcard_value_as_symbol(card_id))
+                , delimiter
+                , format('%s', playcard_suit_as_symbol(card_id))
+                , substring(brackets from 2 for 1)
+                );
+    $body$;
+
 COMMIT;
