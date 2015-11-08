@@ -258,10 +258,7 @@ CREATE OR REPLACE FUNCTION playcard_from_full_name(name varchar(17))
             RETURN returnable;
         ELSE
             RAISE EXCEPTION 'Illegal playcard full name: % (wrong syntax)', name
-                USING HINT = 
-                'The input should be similar to the output of  `playcard_full'
-                || '_name(playcard)`, something like "ace of spades", "five '
-                || 'diamonds", "3 clubs", "card back" or "red joker".';
+                USING HINT = 'The input should be similar to the output of  `playcard_full_name(playcard)`, something like "ace of spades", "five diamonds", "3 clubs", "card back" or "red joker".';
         END IF;
     END;
     $body$;
