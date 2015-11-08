@@ -65,4 +65,21 @@ CREATE OR REPLACE FUNCTION playcard_value_as_string(card_id playcard)
             END;
     $body$;
 
+CREATE OR REPLACE FUNCTION playcard_value_as_string_with_ints(card_id playcard)
+    RETURNS varchar(5)
+    LANGUAGE sql
+    AS $body$
+        SELECT
+            CASE substring(card_id for 1)
+                WHEN 'A' THEN 'ace'
+                WHEN '0' THEN '10'
+                WHEN 'J' THEN 'jack'
+                WHEN 'Q' THEN 'queen'
+                WHEN 'K' THEN 'king'
+                WHEN 'S' THEN 'joker'
+                WHEN 'B' THEN 'back'
+                ELSE substring(card_id for 1)
+            END;
+    $body$;
+
 COMMIT;
