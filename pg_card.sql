@@ -95,4 +95,24 @@ CREATE OR REPLACE FUNCTION playcard_value_as_symbol(card_id playcard)
             END;
     $body$;
 
+CREATE OR REPLACE FUNCTION playcard_suit_as_string(card_id playcard)
+    RETURNS playcard_suit_enum
+    LANGUAGE sql
+    AS $body$
+       SELECT
+            CASE (
+                CASE substring(card_id for 1)
+                    WHEN 'S' THEN NULL
+                    WHEN 'B' THEN NULL
+                    ELSE substring(card_id from 2 for 1)
+                END
+            )
+                WHEN 'H' THEN 'hearts'
+                WHEN 'D' THEN 'diamonds'
+                WHEN 'C' THEN 'clubs'
+                WHEN 'S' THEN 'spades'
+                ELSE NULL :: playcard_suit_enum
+            END;
+    $body$;
+
 COMMIT;
