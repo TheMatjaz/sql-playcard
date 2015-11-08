@@ -115,4 +115,24 @@ CREATE OR REPLACE FUNCTION playcard_suit_as_string(card_id playcard)
             END;
     $body$;
 
+CREATE OR REPLACE FUNCTION playcard_suit_as_symbol(card_id playcard)
+    RETURNS char(1)
+    LANGUAGE sql
+    AS $body$
+        SELECT
+            CASE (
+                CASE substring(card_id for 1)
+                    WHEN 'S' THEN NULL
+                    WHEN 'B' THEN NULL
+                    ELSE substring(card_id from 2 for 1)
+                END
+            )
+                WHEN 'H' THEN '♥'
+                WHEN 'D' THEN '♦'
+                WHEN 'C' THEN '♣'
+                WHEN 'S' THEN '♠'
+                ELSE NULL
+            END;
+    $body$;
+
 COMMIT;
