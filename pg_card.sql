@@ -1,4 +1,20 @@
--- pg_card installer script
+-------------------++--------------------------------++-----------------
+--                 ||  PG_PLAYCARD INSTALLER SCRIPT  ||
+--                 ++--------------------------------++
+--
+-- pg_playcard is a PostgreSQL extension that provides a user defined 
+-- type for standard french playable card (those used in Poker).
+-- For more information, visit the GitHub repository of the project:
+-- https://github.com/TheMatjaz/pg_playcard
+--
+------------------------------------------------------------------------
+-- Copyright (c) 2015, Matjaž <dev@matjaz.it> matjaz.it
+--
+-- This Source Code Form is subject to the terms of the BSD 3-clause 
+-- license. If a copy of the license was not distributed with this
+-- file, You can obtain one at 
+-- http://directory.fsf.org/wiki/License:BSD_3Clause
+------------------------------------------------------------------------
 
 START TRANSACTION;
 
