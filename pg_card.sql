@@ -82,4 +82,17 @@ CREATE OR REPLACE FUNCTION playcard_value_as_string_with_ints(card_id playcard)
             END;
     $body$;
 
+CREATE OR REPLACE FUNCTION playcard_value_as_symbol(card_id playcard)
+    RETURNS char(2)
+    LANGUAGE sql
+    AS $body$
+        SELECT
+            CASE substring(card_id for 1)
+                WHEN '0' THEN '10'
+                WHEN 'S' THEN '★'
+                WHEN 'B' THEN '#'
+                ELSE substring(card_id for 1)
+            END;
+    $body$;
+
 COMMIT;
