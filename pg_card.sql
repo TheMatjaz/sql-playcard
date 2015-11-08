@@ -330,7 +330,7 @@ CREATE OR REPLACE VIEW playcards_vw_full AS
             AS full_name
         , playcard_full_name_with_int(p.card_id)
             AS full_name_int
-        , playcard_value_suit_pair_string(p.card_id)
+        , playcard_value_and_suit_string(p.card_id)
             AS value_suit_pair
         , playcard_draw_card(p.card_id)
             AS drawn_card
