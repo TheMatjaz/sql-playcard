@@ -1,8 +1,10 @@
--------------------++--------------------------------++-----------------
+------------------------------------------------------------------------
+--
+--                 ++--------------------------------++
 --                 ||  PG_PLAYCARD INSTALLER SCRIPT  ||
 --                 ++--------------------------------++
 --
--- pg_playcard is a PostgreSQL extension that provides a user defined 
+-- `pg_playcard` is a PostgreSQL extension that provides a user defined 
 -- type for standard french playable card (those used in Poker).
 -- For more information, visit the GitHub repository of the project:
 -- https://github.com/TheMatjaz/pg_playcard
@@ -21,7 +23,7 @@ START TRANSACTION;
 DROP DOMAIN IF EXISTS playcard;
 CREATE DOMAIN playcard
     AS char(2)
-    DEFAULT 'BC' -- card back
+    DEFAULT 'BC' -- stands for `Card back`
     CONSTRAINT playcard_format
         CHECK (VALUE ~ '[AJQK234567890BS][HDCS]');
 
@@ -52,7 +54,7 @@ CREATE OR REPLACE FUNCTION playcard_value_as_int(card_id playcard)
                 WHEN 'J' THEN 11
                 WHEN 'Q' THEN 12
                 WHEN 'K' THEN 13
-                ELSE NULL -- for joker 'S_' and card back 'B_'
+                ELSE NULL -- for joker 'S_' and Card back 'B_'
             END;
     $body$;
 
