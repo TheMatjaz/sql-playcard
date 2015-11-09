@@ -37,7 +37,9 @@ CREATE TYPE playcard_suit_enum
 
 CREATE OR REPLACE FUNCTION playcard_value_as_int(card_id playcard)
     RETURNS int
+    STRICT
     LANGUAGE sql
+    IMMUTABLE
     AS $body$
         SELECT
             CASE substring(card_id for 1)
@@ -60,7 +62,9 @@ CREATE OR REPLACE FUNCTION playcard_value_as_int(card_id playcard)
 
 CREATE OR REPLACE FUNCTION playcard_value_as_string(card_id playcard)
     RETURNS varchar(5)
+    STRICT
     LANGUAGE sql
+    IMMUTABLE
     AS $body$
         SELECT
             CASE substring(card_id for 1)
@@ -85,7 +89,9 @@ CREATE OR REPLACE FUNCTION playcard_value_as_string(card_id playcard)
 
 CREATE OR REPLACE FUNCTION playcard_value_as_string_with_ints(card_id playcard)
     RETURNS varchar(5)
+    STRICT
     LANGUAGE sql
+    IMMUTABLE
     AS $body$
         SELECT
             CASE substring(card_id for 1)
@@ -102,7 +108,9 @@ CREATE OR REPLACE FUNCTION playcard_value_as_string_with_ints(card_id playcard)
 
 CREATE OR REPLACE FUNCTION playcard_value_as_symbol(card_id playcard)
     RETURNS char(2)
+    STRICT
     LANGUAGE sql
+    IMMUTABLE
     AS $body$
         SELECT
             CASE substring(card_id for 1)
@@ -115,7 +123,9 @@ CREATE OR REPLACE FUNCTION playcard_value_as_symbol(card_id playcard)
 
 CREATE OR REPLACE FUNCTION playcard_suit_as_string(card_id playcard)
     RETURNS playcard_suit_enum
+    STRICT
     LANGUAGE sql
+    IMMUTABLE
     AS $body$
        SELECT
             CASE (
@@ -135,7 +145,9 @@ CREATE OR REPLACE FUNCTION playcard_suit_as_string(card_id playcard)
 
 CREATE OR REPLACE FUNCTION playcard_suit_as_symbol(card_id playcard)
     RETURNS char(1)
+    STRICT
     LANGUAGE sql
+    IMMUTABLE
     AS $body$
         SELECT
             CASE (
@@ -155,7 +167,9 @@ CREATE OR REPLACE FUNCTION playcard_suit_as_symbol(card_id playcard)
 
 CREATE OR REPLACE FUNCTION playcard_suit_color(card_id playcard)
     RETURNS playcard_color_enum
+    STRICT
     LANGUAGE sql
+    IMMUTABLE
     AS $body$
         SELECT
             CASE (
@@ -177,7 +191,9 @@ CREATE OR REPLACE FUNCTION playcard_value_and_suit_string(
     , delimiter text DEFAULT NULL
     , brackets char(2) DEFAULT NULL)
     RETURNS text
+    CALLED ON NULL INPUT
     LANGUAGE sql
+    IMMUTABLE
     AS $body$
         SELECT
             concat(
@@ -191,7 +207,9 @@ CREATE OR REPLACE FUNCTION playcard_value_and_suit_string(
 
 CREATE OR REPLACE FUNCTION playcard_full_name(card_id playcard)
     RETURNS varchar(17)
+    STRICT
     LANGUAGE sql
+    IMMUTABLE
     AS $body$
         SELECT
             CASE substring(card_id for 1)
@@ -206,6 +224,7 @@ CREATE OR REPLACE FUNCTION playcard_full_name(card_id playcard)
 CREATE OR REPLACE FUNCTION playcard_full_name_with_int(card_id playcard)
     RETURNS varchar(17)
     LANGUAGE sql
+    IMMUTABLE
     AS $body$
         SELECT
             CASE substring(card_id for 1)
@@ -219,7 +238,9 @@ CREATE OR REPLACE FUNCTION playcard_full_name_with_int(card_id playcard)
 
 CREATE OR REPLACE FUNCTION playcard_from_full_name(name varchar(17))
     RETURNS playcard
+    CALLED ON NULL INPUT
     LANGUAGE plpgsql
+    IMMUTABLE
     AS $body$
     DECLARE
         value char(1);
@@ -283,7 +304,9 @@ CREATE OR REPLACE FUNCTION playcard_from_full_name(name varchar(17))
 
 CREATE OR REPLACE FUNCTION playcard_draw_card(card_id playcard)
     RETURNS text
+    CALLED ON NULL INPUT
     LANGUAGE sql
+    IMMUTABLE
     AS $body$
         SELECT 
             concat(
