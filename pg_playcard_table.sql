@@ -1,6 +1,6 @@
 START TRANSACTION;
 
-CREATE OR REPLACE FUNCTION is_empty(string text)
+CREATE OR REPLACE FUNCTION is_empty_or_space(string text)
     RETURNS BOOLEAN
     RETURNS NULL ON NULL INPUT
     IMMUTABLE
@@ -18,7 +18,6 @@ CREATE TYPE playcard_enum_suit
     AS ENUM ('hearts', 'diamonds', 'clubs', 'spades');
 
 DROP TABLE IF EXISTS playcards;
-
 CREATE TABLE playcards (
     id             smallint
   , value_smallint smallint            -- NULL when Joker or covered card
@@ -35,13 +34,13 @@ CREATE TABLE playcards (
   , CONSTRAINT value_smallint_range
         CHECK (value_smallint > 0 AND value_smallint <= 13)
   , CONSTRAINT value_text_not_empty
-        CHECK (NOT is_empty(value_text))
+        CHECK (NOT is_empty_or_space(value_text))
   , CONSTRAINT value_symbol_not_empty
-        CHECK (NOT is_empty(value_symbol))
+        CHECK (NOT is_empty_or_space(value_symbol))
   , CONSTRAINT suit_symbol_not_empty
-        CHECK (NOT is_empty(suit_symbol))
+        CHECK (NOT is_empty_or_space(suit_symbol))
   , CONSTRAINT uicode_char_not_empty
-        CHECK (NOT is_empty(unicode_char))
+        CHECK (NOT is_empty_or_space(unicode_char))
     );
 
 CREATE VIEW vw_playcards AS
