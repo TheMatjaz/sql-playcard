@@ -1,43 +1,47 @@
-pg_playcard: french playable cards UDT for PostgreSQL
-=====================================================
+French playable cards (for Poker) representation in SQL
+=======================================================
 
-pg_playcard is a PostgreSQL extension that provides a user defined type for 
-standard french playable card (those used in Poker).
+`pg_playcard` is a simple SQL script (written for PostgreSQL, but easily 
+portable to other RDBMS) to create and fill the `playcard` table which 
+represents a standard french play card (those used in Poker) and contains all 
+of them.
+
+Then just reference the cards with a foreign key from any other table and 
+that's it.
+
 
 Features
 --------
-_pg\_playcard_ offers a compact on-disk representation of the playable card 
-that uses only 2 bytes (technically a `char(2)`) and a 
-[set of functions](docs/pg_playcard_docs.md) to extract and expand the 
-information stored in it. The representation is defined with the domain 
-`playcard`.
 
-_pg\_playcard_ supports all the cards in a standard 52-cards deck, which are  
-_ace, two, three, ..., ten, jack, queen_ and _king_ of four suits: _hearts_ 
-(♥), _diamonds_ (♦), _clubs_ (♣) and _spades_ (♠). It also has special values 
-for the _jokers_: _red_ (☆) and _black_ (★) aswell as a _card back_ (#) value, 
-used to indicade a card that is covered, thus showing the back, which value 
-and suit are unknown.
+Probably looking at the `CREATE TABLE` query or running 
+`SELECT * FROM playcards; SELECT * FROM vw_playcards;` will claryfy most of it.
+Playable cards are represented in the `playcards` table. The table contains a 
+full 52-card deck (13 for each of hearts, diamonds, clubs and spades), 2 jokers 
+(red and black) and an additional _covered card_ or _card back_ tuple, used to 
+represent a card with unknown value.
 
-For a complete documentation about the functions, please check the 
-[docs file](docs/pg_playcard_docs.md).
+Be sure to use an UTF-8 database to fully support the 
+[unicode characters of the cards](https://en.wikipedia.org/wiki/Playing_cards_in_Unicode).
 
-_pg\_playcard_ is written only with SQL and PL/pgSQL, so it has no other 
-dependencies other than PostgreSQL.
 
-Hope you find it helpful!
+Porting to other RDBMS
+----------------------
 
-Installation
-------------
-For now, _pg\_playcard_ comes in a SQL-script-only version. This means that 
-you simply need to run the SQL installer script and that's it.
-```bash
-psql [other parameters] -f pg_playcard.sql
-```
+The script is created for PostgreSQL but should be easily portable to other 
+RDBMS. Try this first and then adapt to your needs:
+
+1. remove the function `is_empty_or_space()`
+2. remove the enum types `playcard_enum_color` and `playcard_enum_suit`
+3. remove the `CONSTRAINT` clauses from the `playcards` table, except on `id` 
+   and `unicode_char`
+4. substitute the enum types in the `playcards` table with a `varchar(8)` type.
+   8 is the length of the suit `'diamonds'`
+
+
+If anything about the script is not clear, feel free to contact me!
+
 
 License
 -------
-_pg\_playcard_ is released under the terms of the 
-[BSD 3-clause license](LICENSE.md), 
-which makes it free software. You are free to use it as you wish, as long as 
-you include the BSD copyright and license notice in it.
+`pg\_playcard` is released under the terms of the 
+[BSD 3-clause license](LICENSE.md).
