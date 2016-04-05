@@ -1,24 +1,12 @@
 -------------------------------------------------------------------------------
--- REPRESENTATION OF A STANDARD FRENCH PLAYABLE CARD (for Poker)
+-- French playable cards (for Poker) representation in SQL for PostgreSQL
 --
 -- This SQL script contains is a relly simple but comprehensive representation 
 -- of a standard french playable card (those used in Poker). Be sure to use
 -- an UTF-8 database to fully support the unicode characters for the cards.
 -- 
--- It is created for PostgreSQL but should be easily portable to other RDBMS.
--- Try this and then adapt to your needs:
---     1. remove the function `is_empty_or_space()`
---     2. remove the enum types `playcard_enum_color` and `playcard_enum_suit`
---     3. remove the `CONSTRAINT` clauses from the table, except on `id` and
---        `unicode_char`
---     4. substitute the enum types with a `varchar(8)` type. 8 is the length
---        of the suit `'diamonds'`
---
--------------------------------------------------------------------------------
---
--- For more information, visit the GitHub repository of the project:
--- https://github.com/TheMatjaz/pg_playcard
---
+-- For more information and versions of this script for other RDBMS, visit the
+-- GitHub repository of the project: https://github.com/TheMatjaz/pg_playcard
 -------------------------------------------------------------------------------
 -- Copyright © 2016, Matjaž Guštin <dev@matjaz.it> matjaz.it
 --
