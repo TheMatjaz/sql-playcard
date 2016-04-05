@@ -21,12 +21,12 @@ DROP TABLE IF EXISTS playcards;
 
 CREATE TABLE playcards (
     id             smallint
-  , unicode_char   char(1)             NOT NULL UNIQUE
   , value_smallint smallint            -- NULL when Joker or covered
   , value_text     text                -- NULL when Joker or covered
   , suit_symbol    char(1)             -- NULL when Joker or covered
   , suit_text      playcard_enum_suit  -- NULL when Joker or covered
   , suit_color     playcard_enum_color -- NULL when Joker or covered
+  , unicode_char   char(1)             NOT NULL UNIQUE
 
   , PRIMARY KEY (id)
   , CONSTRAINT playcard_id_range
