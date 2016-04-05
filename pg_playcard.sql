@@ -72,7 +72,7 @@ CREATE TABLE playcards (
         CHECK (NOT is_empty_or_space(value_symbol))
   , CONSTRAINT suit_symbol_not_empty
         CHECK (NOT is_empty_or_space(suit_symbol))
-  , CONSTRAINT uicode_char_not_empty
+  , CONSTRAINT unicode_char_not_empty
         CHECK (NOT is_empty_or_space(unicode_char))
     );
 
