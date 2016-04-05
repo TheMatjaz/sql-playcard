@@ -44,6 +44,30 @@ CREATE TABLE playcards (
         CHECK (NOT is_empty(unicode_char))
     );
 
+CREATE VIEW vw_playcards AS
+    SELECT
+        id
+      , value_smallint
+      , value_text
+      , value_symbol
+      , suit_symbol
+      , suit_text
+      , suit_color
+      , CASE id
+            WHEN 53 THEN value_symbol
+            WHEN 54 THEN value_symbol
+            WHEN  0 THEN '#'
+            ELSE value_symbol || suit_symbol
+        END AS full_symbol
+      , CASE id
+            WHEN 53 THEN suit_color || ' ' || value_text
+            WHEN 54 THEN suit_color || ' ' || value_text
+            WHEN  0 THEN 'card back'
+            ELSE value_text || ' of ' || suit_text
+        END AS full_name
+      , unicode_char
+        FROM playcards;
+
 INSERT INTO playcards 
 (id, unicode_char, value_smallint, value_text, value_symbol, suit_symbol, suit_text, suit_color)
 VALUES
