@@ -37,6 +37,8 @@ CREATE TABLE playcards (
         CHECK (NOT is_empty(value_text))
   , CONSTRAINT suit_symbol_not_empty
         CHECK (NOT is_empty(suit_symbol))
+  , CONSTRAINT uicode_char_not_empty
+        CHECK (NOT is_empty(unicode_char))
     );
 
 INSERT INTO playcards 
