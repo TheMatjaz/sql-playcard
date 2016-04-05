@@ -1,5 +1,6 @@
 START TRANSACTION;
 
+
 CREATE OR REPLACE FUNCTION is_empty_or_space(string text)
     RETURNS BOOLEAN
     RETURNS NULL ON NULL INPUT
@@ -8,14 +9,17 @@ CREATE OR REPLACE FUNCTION is_empty_or_space(string text)
     AS $body$
         SELECT string ~ '^[[:space:]]*$';
     $body$;
-    
+
+
 DROP TYPE IF EXISTS playcard_enum_color CASCADE;
 CREATE TYPE playcard_enum_color
     AS ENUM ('red', 'black');
 
+
 DROP TYPE IF EXISTS playcard_enum_suit CASCADE;
 CREATE TYPE playcard_enum_suit
     AS ENUM ('hearts', 'diamonds', 'clubs', 'spades');
+
 
 DROP TABLE IF EXISTS playcards;
 CREATE TABLE playcards (
@@ -43,6 +47,7 @@ CREATE TABLE playcards (
         CHECK (NOT is_empty_or_space(unicode_char))
     );
 
+
 CREATE VIEW vw_playcards AS
     SELECT
         id
@@ -67,11 +72,11 @@ CREATE VIEW vw_playcards AS
       , unicode_char
         FROM playcards;
 
+
 INSERT INTO playcards 
 (id, value_smallint, value_text, value_symbol, suit_symbol, 
     suit_text, suit_color, unicode_char)
 VALUES
-
     -- HEARTS
     ( 1,  1, 'ace',   'A', '♥', 'hearts',   'red',   '🂱')
   , ( 2,  2, 'two',   '2', '♥', 'hearts',   'red',   '🂲')
