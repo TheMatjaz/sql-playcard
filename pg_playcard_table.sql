@@ -9,11 +9,11 @@ CREATE OR REPLACE FUNCTION is_empty(string text)
         SELECT string ~ '^[[:space:]]*$';
     $body$;
     
-DROP TYPE IF EXISTS playcard_enum_color;
+DROP TYPE IF EXISTS playcard_enum_color CASCADE;
 CREATE TYPE playcard_enum_color
     AS ENUM ('red', 'black');
 
-DROP TYPE IF EXISTS playcard_enum_suit;
+DROP TYPE IF EXISTS playcard_enum_suit CASCADE;
 CREATE TYPE playcard_enum_suit
     AS ENUM ('hearts', 'diamonds', 'clubs', 'spades');
 
