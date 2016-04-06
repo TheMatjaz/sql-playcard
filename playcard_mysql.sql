@@ -2,8 +2,7 @@
 -- French playable cards (for Poker) representation in SQL for MySQL
 --
 -- This SQL script contains is a relly simple but comprehensive representation 
--- of a standard french playable card (those used in Poker). Be sure to use
--- an utf8mb4 database to fully support the unicode characters for the cards.
+-- of a standard french playable card (those used in Poker).
 -- 
 -- For more information and versions of this script for other RDBMS, visit the
 -- GitHub repository of the project: https://github.com/TheMatjaz/pg_playcard
@@ -14,6 +13,9 @@
 -- copy of the license was not distributed with this file, you can obtain one 
 -- at http://directory.fsf.org/wiki/License:BSD_3Clause
 -------------------------------------------------------------------------------
+
+SET NAMES utf8mb4;
+
 
 START TRANSACTION;
 
@@ -47,7 +49,7 @@ CREATE TABLE playcards (
         CHECK (NOT suit_symbol REGEXP '^[[:space:]]*$')
   , CONSTRAINT unicode_char_not_empty
         CHECK (NOT unicode_char REGEXP '^[[:space:]]*$')
-    );
+    ) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
 
 CREATE VIEW vw_playcards AS
