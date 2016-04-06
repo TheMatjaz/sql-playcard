@@ -26,17 +26,17 @@ DROP TABLE IF EXISTS playcards;
 
 CREATE TABLE playcards (
     id             tinyint
-  , value_tinyint  tinyint              -- NULL when Joker or covered card
+  , value_tinyint  tinyint
   , value_text     ENUM('ace',  'two',   'three',  'four',  'five',
                         'six',  'seven', 'eight',  'nine',  'ten',
                         'jack', 'queen', 'king',   'joker')
-                                        -- NULL when Joker or covered card
-  , value_symbol   char(2)              -- NULL when Joker or covered card
-  , suit_symbol    char(1)              -- NULL when Joker or covered card
+  , value_symbol   char(2)
+  , suit_symbol    char(1)
   , suit_text      ENUM('hearts', 'diamonds', 'clubs', 'spades')
-                                        -- NULL when Joker or covered card
-  , suit_color     ENUM('red', 'black') -- NULL when Joker or covered card
-  , unicode_char   char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL UNIQUE
+  , suit_color     ENUM('red', 'black')
+  , unicode_char   char(1) CHARACTER SET utf8mb4
+                           COLLATE utf8mb4_bin
+                           NOT NULL UNIQUE
 
   , PRIMARY KEY (id)
   , CONSTRAINT playcard_id_range
@@ -49,7 +49,9 @@ CREATE TABLE playcards (
         CHECK (NOT suit_symbol REGEXP '^[[:space:]]*$')
   , CONSTRAINT unicode_char_not_empty
         CHECK (NOT unicode_char REGEXP '^[[:space:]]*$')
-    ) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+    )
+    CHARACTER SET utf8 COLLATE utf8_unicode_ci
+    ;
 
 
 CREATE VIEW vw_playcards AS

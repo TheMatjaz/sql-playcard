@@ -42,13 +42,13 @@ CREATE INDEX idx_enums_playcard
 
 CREATE TABLE playcards (
     id             integer
-  , value_int      integer    -- NULL when Joker or covered card
-  , fk_value_text  integer    -- NULL when Joker or covered card
-  , value_symbol   char(2)    -- NULL when Joker or covered card
-  , suit_symbol    char(1)    -- NULL when Joker or covered card
-  , fk_suit_text   integer    -- NULL when Joker or covered card
-  , fk_suit_color  integer    -- NULL when Joker or covered card
-  , unicode_char   char(1)    NOT NULL UNIQUE
+  , value_int      integer
+  , fk_value_text  integer
+  , value_symbol   char(2)
+  , suit_symbol    char(1)
+  , fk_suit_text   integer
+  , fk_suit_color  integer
+  , unicode_char   char(1)  NOT NULL UNIQUE
 
   , PRIMARY KEY (id)
   , FOREIGN KEY (fk_value_text)

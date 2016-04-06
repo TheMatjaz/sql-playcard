@@ -15,6 +15,7 @@
 -- at http://directory.fsf.org/wiki/License:BSD_3Clause
 -------------------------------------------------------------------------------
 
+
 START TRANSACTION;
 
 
@@ -32,28 +33,26 @@ DROP TYPE IF EXISTS playcard_enum_color CASCADE;
 CREATE TYPE playcard_enum_color
     AS ENUM ('red', 'black');
 
-
 DROP TYPE IF EXISTS playcard_enum_suit CASCADE;
 CREATE TYPE playcard_enum_suit
     AS ENUM ('hearts', 'diamonds', 'clubs', 'spades');
 
-
 DROP TYPE IF EXISTS playcard_enum_value CASCADE;
 CREATE TYPE playcard_enum_value
-    AS ENUM ('ace',  'two',   'three',  'four',  'five',
-             'six',  'seven', 'eight',  'nine',  'ten',
-             'jack', 'queen', 'king',   'joker');
+    AS ENUM ('ace',  'two',   'three', 'four',  'five',
+             'six',  'seven', 'eight', 'nine',  'ten',
+             'jack', 'queen', 'king',  'joker');
 
 
 DROP TABLE IF EXISTS playcards;
 CREATE TABLE playcards (
     id             smallint
-  , value_smallint smallint            -- NULL when Joker or covered card
-  , value_text     playcard_enum_value -- NULL when Joker or covered card
-  , value_symbol   char(2)             -- NULL when Joker or covered card
-  , suit_symbol    char(1)             -- NULL when Joker or covered card
-  , suit_text      playcard_enum_suit  -- NULL when Joker or covered card
-  , suit_color     playcard_enum_color -- NULL when Joker or covered card
+  , value_smallint smallint
+  , value_text     playcard_enum_value
+  , value_symbol   char(2)
+  , suit_symbol    char(1)
+  , suit_text      playcard_enum_suit
+  , suit_color     playcard_enum_color
   , unicode_char   char(1)             NOT NULL UNIQUE
 
   , PRIMARY KEY (id)

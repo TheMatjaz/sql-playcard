@@ -25,12 +25,12 @@ DROP TABLE IF EXISTS playcards;
 
 CREATE TABLE playcards (
     id             integer
-  , value_smallint integer    -- NULL when Joker or covered card
-  , value_text     varchar(5) -- NULL when Joker or covered card
-  , value_symbol   char(2)    -- NULL when Joker or covered card
-  , suit_symbol    char(1)    -- NULL when Joker or covered card
-  , suit_text      varchar(8) -- NULL when Joker or covered card
-  , suit_color     varchar(5) -- NULL when Joker or covered card
+  , value_smallint integer
+  , value_text     varchar(5)
+  , value_symbol   char(2)
+  , suit_symbol    char(1)
+  , suit_text      varchar(8)
+  , suit_color     varchar(5)
   , unicode_char   char(1)    NOT NULL UNIQUE
 
   , PRIMARY KEY (id)
