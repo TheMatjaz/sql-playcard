@@ -22,7 +22,11 @@ PRAGMA foreign_keys = ON;
 BEGIN;
 
 
+DROP VIEW IF EXISTS vw_playcards;
+DROP TABLE IF EXISTS playcards;
 DROP TABLE IF EXISTS enums_playcard_strings;
+
+
 CREATE TABLE enums_playcard_strings (
     id     integer PRIMARY KEY
   , string text    NOT NULL UNIQUE
@@ -36,7 +40,6 @@ CREATE INDEX idx_enums_playcard
     ON enums_playcard_strings (string);
 
 
-DROP TABLE IF EXISTS playcards;
 CREATE TABLE playcards (
     id             integer
   , value_int      integer    -- NULL when Joker or covered card
@@ -67,7 +70,6 @@ CREATE TABLE playcards (
     );
 
 
-DROP VIEW IF EXISTS vw_playcards;
 CREATE VIEW vw_playcards AS
     SELECT
         pl.id
