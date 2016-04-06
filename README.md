@@ -43,5 +43,5 @@ If anything about the script is not clear, feel free to contact me!
 
 License
 -------
-`pg\_playcard` is released under the terms of the 
+`pg_playcard` is released under the terms of the 
 [BSD 3-clause license](LICENSE.md).
