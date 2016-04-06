@@ -16,27 +16,48 @@
 -- at http://directory.fsf.org/wiki/License:BSD_3Clause
 -------------------------------------------------------------------------------
 
+PRAGMA foreign_keys = ON;
+
+
 BEGIN;
+
+
+DROP TABLE IF EXISTS enums_playcard_strings;
+CREATE TABLE enums_playcard_strings (
+    id     integer PRIMARY KEY
+  , string text    NOT NULL UNIQUE
+
+  , CONSTRAINT not_empty_string
+        CHECK (length(string) > 0)
+    );
+
+
+CREATE INDEX idx_enums_playcard
+    ON enums_playcard_strings (string);
 
 
 DROP TABLE IF EXISTS playcards;
 CREATE TABLE playcards (
     id             integer
-  , value_smallint integer    -- NULL when Joker or covered card
-  , value_text     varchar(5) -- NULL when Joker or covered card
+  , value_int      integer    -- NULL when Joker or covered card
+  , fk_value_text  integer    -- NULL when Joker or covered card
   , value_symbol   char(2)    -- NULL when Joker or covered card
   , suit_symbol    char(1)    -- NULL when Joker or covered card
-  , suit_text      varchar(8) -- NULL when Joker or covered card
-  , suit_color     varchar(5) -- NULL when Joker or covered card
+  , fk_suit_text   integer    -- NULL when Joker or covered card
+  , fk_suit_color  integer    -- NULL when Joker or covered card
   , unicode_char   char(1)    NOT NULL UNIQUE
 
   , PRIMARY KEY (id)
+  , FOREIGN KEY (fk_value_text)
+        REFERENCES enums_playcard_strings (id)
+  , FOREIGN KEY (fk_suit_color)
+        REFERENCES enums_playcard_strings (id)
+  , FOREIGN KEY (fk_suit_text)
+        REFERENCES enums_playcard_strings (id)
   , CONSTRAINT playcard_id_range
         CHECK (id >= 0 AND id <= 54)
-  , CONSTRAINT value_smallint_range
-        CHECK (value_smallint > 0 AND value_smallint <= 13)
-  , CONSTRAINT value_text_not_empty
-        CHECK (length(value_text) > 0)
+  , CONSTRAINT value_int_range
+        CHECK (value_int > 0 AND value_int <= 13)
   , CONSTRAINT value_symbol_not_empty
         CHECK (length(value_symbol) > 0)
   , CONSTRAINT suit_symbol_not_empty
@@ -49,31 +70,63 @@ CREATE TABLE playcards (
 DROP VIEW IF EXISTS vw_playcards;
 CREATE VIEW vw_playcards AS
     SELECT
-        id
-      , value_smallint
-      , value_text
-      , value_symbol
-      , suit_symbol
-      , suit_text
-      , suit_color
+        pl.id
+      , pl.value_int
+      , value.string
+      , pl.value_symbol
+      , pl.suit_symbol
+      , suit.string
+      , color.string
       , CASE id
-            WHEN 53 THEN value_symbol
-            WHEN 54 THEN value_symbol
+            WHEN 53 THEN pl.value_symbol
+            WHEN 54 THEN pl.value_symbol
             WHEN  0 THEN '#'
-            ELSE value_symbol || suit_symbol
+            ELSE pl.value_symbol || pl.suit_symbol
         END AS full_symbol
       , CASE id
-            WHEN 53 THEN suit_color || ' ' || value_text
-            WHEN 54 THEN suit_color || ' ' || value_text
+            WHEN 53 THEN color.string || ' ' || value.string
+            WHEN 54 THEN color.string || ' ' || value.string
             WHEN  0 THEN 'card back'
-            ELSE value_text || ' of ' || suit_text
+            ELSE value.string || ' of ' || suit.string
         END AS full_name
       , unicode_char
-        FROM playcards;
+        FROM playcards AS pl
+        LEFT JOIN enums_playcard_strings AS color
+            ON pl.fk_suit_color = en.string
+        LEFT JOIN enums_playcard_strings AS suit
+            ON pl.fk_suit_text = en.string
+        LEFT JOIN enums_playcard_strings AS value
+            ON pl.fk_value_text = en.string
+        ;
+
+
+INSERT INTO enums_playcard_strings (string) VALUES
+    ('ace')
+  , ('two')
+  , ('three')
+  , ('four')
+  , ('five')
+  , ('six')
+  , ('seven')
+  , ('eight')
+  , ('nine')
+  , ('ten')
+  , ('jack')
+  , ('queen')
+  , ('king')
+  , ('joker')
+  , ('card back')
+  , ('hearts')
+  , ('diamonds')
+  , ('clubs')
+  , ('spades')
+  , ('red')
+  , ('black')
+  ;
 
 
 INSERT INTO playcards 
-(id, value_smallint, value_text, value_symbol, suit_symbol, 
+(id, value_int, value_text, value_symbol, suit_symbol, 
     suit_text, suit_color, unicode_char)
 VALUES
     -- HEARTS
@@ -146,3 +199,5 @@ VALUES
 
 
 COMMIT;
+
+VACUUM;
