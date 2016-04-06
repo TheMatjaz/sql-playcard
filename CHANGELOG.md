@@ -14,6 +14,7 @@ Added
   cards. An UDT is not needed since the number of its instances is limited to
   55 (52 cards + 2 jokers + 1 covered card).
 - A view for full card symbols and full card names (in english)
+- The script is for PostgreSQL, MySQL and SQLite.
 
 
 v0.1.0
