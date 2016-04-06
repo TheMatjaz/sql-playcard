@@ -38,11 +38,18 @@ CREATE TYPE playcard_enum_suit
     AS ENUM ('hearts', 'diamonds', 'clubs', 'spades');
 
 
+DROP TYPE IF EXISTS playcard_enum_value CASCADE;
+CREATE TYPE playcard_enum_value
+    AS ENUM ('ace',  'two',   'three',  'four',  'five',
+             'six',  'seven', 'eight',  'nine',  'ten',
+             'jack', 'queen', 'king',   'joker');
+
+
 DROP TABLE IF EXISTS playcards;
 CREATE TABLE playcards (
     id             smallint
   , value_smallint smallint            -- NULL when Joker or covered card
-  , value_text     varchar(5)          -- NULL when Joker or covered card
+  , value_text     playcard_enum_value -- NULL when Joker or covered card
   , value_symbol   char(2)             -- NULL when Joker or covered card
   , suit_symbol    char(1)             -- NULL when Joker or covered card
   , suit_text      playcard_enum_suit  -- NULL when Joker or covered card
@@ -54,8 +61,6 @@ CREATE TABLE playcards (
         CHECK (id >= 0 AND id <= 54)
   , CONSTRAINT value_smallint_range
         CHECK (value_smallint > 0 AND value_smallint <= 13)
-  , CONSTRAINT value_text_not_empty
-        CHECK (NOT is_empty_or_space(value_text))
   , CONSTRAINT value_symbol_not_empty
         CHECK (NOT is_empty_or_space(value_symbol))
   , CONSTRAINT suit_symbol_not_empty
@@ -164,3 +169,5 @@ VALUES
 
 
 COMMIT;
+
+VACUUM FULL ANALYZE playcards;
