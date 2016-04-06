@@ -79,13 +79,13 @@ CREATE VIEW vw_playcards AS
       , pl.suit_symbol
       , suit.string
       , color.string
-      , CASE id
+      , CASE pl.id
             WHEN 53 THEN pl.value_symbol
             WHEN 54 THEN pl.value_symbol
             WHEN  0 THEN '#'
             ELSE pl.value_symbol || pl.suit_symbol
         END AS full_symbol
-      , CASE id
+      , CASE pl.id
             WHEN 53 THEN color.string || ' ' || value.string
             WHEN 54 THEN color.string || ' ' || value.string
             WHEN  0 THEN 'card back'
@@ -94,11 +94,11 @@ CREATE VIEW vw_playcards AS
       , unicode_char
         FROM playcards AS pl
         LEFT JOIN enums_playcard_strings AS color
-            ON pl.fk_suit_color = en.string
+            ON pl.fk_suit_color = color.id
         LEFT JOIN enums_playcard_strings AS suit
-            ON pl.fk_suit_text = en.string
+            ON pl.fk_suit_text = suit.id
         LEFT JOIN enums_playcard_strings AS value
-            ON pl.fk_value_text = en.string
+            ON pl.fk_value_text = value.id
         ;
 
 
@@ -128,9 +128,9 @@ INSERT INTO enums_playcard_strings (string) VALUES
 
 
 INSERT INTO playcards 
-(id, value_int, value_text, value_symbol, suit_symbol, 
-    suit_text, suit_color, unicode_char)
-VALUES
+(id, value_int, fk_value_text, value_symbol, suit_symbol, fk_suit_text, 
+    fk_suit_color, unicode_char) VALUES
+
     -- HEARTS
     ( 1,  1, 'ace',   'A', '♥', 'hearts',   'red',   '🂱')
   , ( 2,  2, 'two',   '2', '♥', 'hearts',   'red',   '🂲')
