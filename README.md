@@ -57,6 +57,21 @@ Each row represents a card from the deck. There are 55 rows (cards) in it:
   represent a card with unknown value. `id = 0`.
 
 
+### A note for SQLite
+
+Since not every SQLite database has foreign keys (FK) enabled (they are 
+[disabled by default](https://www.sqlite.org/foreignkeys.html)), there are two
+versions of the same script:
+
+- one does not use FK and stores full strings in the table since SQLite has no
+  `ENUM` types. It is much simpler and smaller (6,3 KiB) although a bit 
+  redundant and not in 2NF. When in doubt, use this one.
+- the second one uses FK instead of `ENUM` types. It's more complex to 
+  understand and you need to use the view `vw_playcard` to access joined data.
+  It's also bigger (15.9 KiB) but it's in 2NF. I personally disourage its use
+  for such a small table.
+
+
 UTF-8
 ---------------------------------------
 
@@ -69,6 +84,7 @@ any problems.
 
 
 License
--------
-`pg_playcard` is released under the terms of the 
-[BSD 3-clause license](LICENSE.md).
+---------------------------------------
+
+This `sql-playcard` repository and all its content is released under the 
+terms of the [BSD 3-clause license](LICENSE.md).
