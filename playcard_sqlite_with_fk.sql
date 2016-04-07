@@ -1,13 +1,16 @@
 -------------------------------------------------------------------------------
--- French playable cards (for Poker) representation in SQL for SQLite
+-- French playable cards (for Poker) representation in SQL for *SQLite*
+-- with the usage of foreign keys.
 --
--- This SQLite script contains is a relly simple but comprehensive 
--- representation of a standard french playable card (those used in Poker). 
+-- This SQL script contains is a really simple but comprehensive representation 
+-- of a deck of standard french playable cards, those used in Poker.
+--
 -- Be sure to use an UTF-8 database to fully support the unicode characters 
 -- for the cards.
---
--- For more information and versions of this script for other RDBMS, visit the
--- GitHub repository of the project: https://github.com/TheMatjaz/pg_playcard
+-- 
+-- For more information and versions of this script, including a simpler one
+-- for SQLite without using foreign keys, but also for other RDBMS, visit the
+-- GitHub repository of the project: https://github.com/TheMatjaz/sql-playcard
 -------------------------------------------------------------------------------
 -- Copyright © 2016, Matjaž Guštin <dev@matjaz.it> matjaz.it
 --
@@ -42,13 +45,13 @@ CREATE INDEX idx_enums_playcard
 
 CREATE TABLE playcards (
     id             integer
-  , value_int      integer    -- NULL when Joker or covered card
-  , fk_value_text  integer    -- NULL when Joker or covered card
-  , value_symbol   char(2)    -- NULL when Joker or covered card
-  , suit_symbol    char(1)    -- NULL when Joker or covered card
-  , fk_suit_text   integer    -- NULL when Joker or covered card
-  , fk_suit_color  integer    -- NULL when Joker or covered card
-  , unicode_char   char(1)    NOT NULL UNIQUE
+  , value_int      integer
+  , fk_value_text  integer
+  , value_symbol   char(2)
+  , suit_symbol    char(1)
+  , fk_suit_text   integer
+  , fk_suit_color  integer
+  , unicode_char   char(1)  NOT NULL UNIQUE
 
   , PRIMARY KEY (id)
   , FOREIGN KEY (fk_value_text)

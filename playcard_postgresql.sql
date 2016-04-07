@@ -1,12 +1,14 @@
 -------------------------------------------------------------------------------
--- French playable cards (for Poker) representation in SQL for PostgreSQL
+-- French playable cards (for Poker) representation in SQL for *PostgreSQL*
 --
--- This SQL script contains is a relly simple but comprehensive representation 
--- of a standard french playable card (those used in Poker). Be sure to use
--- an UTF-8 database to fully support the unicode characters for the cards.
+-- This SQL script contains is a really simple but comprehensive representation 
+-- of a deck of standard french playable cards, those used in Poker.
+--
+-- Be sure to use an UTF-8 database to fully support the unicode characters 
+-- for the cards.
 -- 
 -- For more information and versions of this script for other RDBMS, visit the
--- GitHub repository of the project: https://github.com/TheMatjaz/pg_playcard
+-- GitHub repository of the project: https://github.com/TheMatjaz/sql-playcard
 -------------------------------------------------------------------------------
 -- Copyright © 2016, Matjaž Guštin <dev@matjaz.it> matjaz.it
 --
@@ -14,6 +16,7 @@
 -- copy of the license was not distributed with this file, you can obtain one 
 -- at http://directory.fsf.org/wiki/License:BSD_3Clause
 -------------------------------------------------------------------------------
+
 
 START TRANSACTION;
 
@@ -32,28 +35,26 @@ DROP TYPE IF EXISTS playcard_enum_color CASCADE;
 CREATE TYPE playcard_enum_color
     AS ENUM ('red', 'black');
 
-
 DROP TYPE IF EXISTS playcard_enum_suit CASCADE;
 CREATE TYPE playcard_enum_suit
     AS ENUM ('hearts', 'diamonds', 'clubs', 'spades');
 
-
 DROP TYPE IF EXISTS playcard_enum_value CASCADE;
 CREATE TYPE playcard_enum_value
-    AS ENUM ('ace',  'two',   'three',  'four',  'five',
-             'six',  'seven', 'eight',  'nine',  'ten',
-             'jack', 'queen', 'king',   'joker');
+    AS ENUM ('ace',  'two',   'three', 'four',  'five',
+             'six',  'seven', 'eight', 'nine',  'ten',
+             'jack', 'queen', 'king',  'joker');
 
 
 DROP TABLE IF EXISTS playcards;
 CREATE TABLE playcards (
     id             smallint
-  , value_smallint smallint            -- NULL when Joker or covered card
-  , value_text     playcard_enum_value -- NULL when Joker or covered card
-  , value_symbol   char(2)             -- NULL when Joker or covered card
-  , suit_symbol    char(1)             -- NULL when Joker or covered card
-  , suit_text      playcard_enum_suit  -- NULL when Joker or covered card
-  , suit_color     playcard_enum_color -- NULL when Joker or covered card
+  , value_smallint smallint
+  , value_text     playcard_enum_value
+  , value_symbol   char(2)
+  , suit_symbol    char(1)
+  , suit_text      playcard_enum_suit
+  , suit_color     playcard_enum_color
   , unicode_char   char(1)             NOT NULL UNIQUE
 
   , PRIMARY KEY (id)

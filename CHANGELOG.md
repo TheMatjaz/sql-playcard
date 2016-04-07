@@ -6,6 +6,7 @@ Removed
 
 - User defined type, domains and functions and every code from v0.1.0.
 
+
 Added
 -----
 
@@ -14,6 +15,13 @@ Added
   cards. An UDT is not needed since the number of its instances is limited to
   55 (52 cards + 2 jokers + 1 covered card).
 - A view for full card symbols and full card names (in english)
+- The script is for PostgreSQL, MySQL and SQLite.
+
+
+Changed
+-------
+
+- Readme file has detailed explanation on how the table is structured.
 
 
 v0.1.0

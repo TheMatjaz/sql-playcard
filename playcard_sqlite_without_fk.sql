@@ -1,13 +1,18 @@
 -------------------------------------------------------------------------------
--- French playable cards (for Poker) representation in SQL for SQLite
+-- French playable cards (for Poker) representation in SQL for *SQLite*
+-- without using foreign keys.
 --
--- This SQLite script contains is a relly simple but comprehensive 
--- representation of a standard french playable card (those used in Poker). 
+-- This SQL script contains is a really simple but comprehensive representation 
+-- of a deck of standard french playable cards, those used in Poker. In this
+-- particular script foreign keys are not used and the strings are stored
+-- directly into the table, since SQLite is not offering an ENUM data type.
+--
 -- Be sure to use an UTF-8 database to fully support the unicode characters 
 -- for the cards.
---
--- For more information and versions of this script for other RDBMS, visit the
--- GitHub repository of the project: https://github.com/TheMatjaz/pg_playcard
+-- 
+-- For more information and versions of this script, including a simpler one
+-- for SQLite with foreign keys, but also for other RDBMS, visit the
+-- GitHub repository of the project: https://github.com/TheMatjaz/sql-playcard
 -------------------------------------------------------------------------------
 -- Copyright © 2016, Matjaž Guštin <dev@matjaz.it> matjaz.it
 --
@@ -25,12 +30,12 @@ DROP TABLE IF EXISTS playcards;
 
 CREATE TABLE playcards (
     id             integer
-  , value_smallint integer    -- NULL when Joker or covered card
-  , value_text     varchar(5) -- NULL when Joker or covered card
-  , value_symbol   char(2)    -- NULL when Joker or covered card
-  , suit_symbol    char(1)    -- NULL when Joker or covered card
-  , suit_text      varchar(8) -- NULL when Joker or covered card
-  , suit_color     varchar(5) -- NULL when Joker or covered card
+  , value_smallint integer
+  , value_text     varchar(5)
+  , value_symbol   char(2)
+  , suit_symbol    char(1)
+  , suit_text      varchar(8)
+  , suit_color     varchar(5)
   , unicode_char   char(1)    NOT NULL UNIQUE
 
   , PRIMARY KEY (id)
